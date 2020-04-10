@@ -39,9 +39,7 @@ def abol_search(url,size):
     try:
         # Get the request data as an object
         res = requests.get(url)
-        # print(res.text)
         soup = bs4.BeautifulSoup(res.text, 'lxml')
-        # print(type(soup))
         # Parent table
         table = soup.find('table', class_='itemlist')
         # Children tr
@@ -53,8 +51,6 @@ def abol_search(url,size):
         x = 0
         for i in range(0, size):
             item = []
-            # print(tds1[x].text)
-            # print(tds1[x+1].text)
             item.append(tds1[x].text)
             item.append(tds1[x+1].text)
             x = x + 2
@@ -76,10 +72,9 @@ def abol_search(url,size):
             else:
                 item.append(0)
             
-            # Add data
+            # Add data to the main list
             raw_data.append(item)
 
-        #print(raw_data)
         return raw_data
 
     except Exception as e:
