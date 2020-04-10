@@ -3,10 +3,20 @@ import requests
 import bs4
 
 
-def abol_filter(item):
+def abol_filter_more(item):
     words = item[1].split(' ')
-    if len(words) > 5
-    print(len(words))
+    return len(words) > 5
+
+def abol_filter_less(item):
+    words = item[1].split(' ')
+    return len(words) <= 5
+
+
+def order_points(elem):
+    return elem[2]
+
+def order_comments(elem):
+    return elem[3]
 
 
 def abol_search(url,size):
@@ -37,8 +47,19 @@ def abol_search(url,size):
             # Commetns
             links = tds2[i].find_all('a')
             comment = links[3].text
-            item.append(span.text)
-            item.append(comment)
+            #Get the points as int
+            list_span = span.text.split(' ')
+            if len(list_span) == 2:
+                item.append(int(list_span[0]))
+            else:
+                item.append(0)
+            #Get the comments as int
+            list_comm = comment.split('\xa0')
+            if len(list_comm) == 2:
+                item.append(int(list_comm[0]))
+            else:
+                item.append(0)
+            
             # Add data
             raw_data.append(item)
 
@@ -50,7 +71,21 @@ def abol_search(url,size):
 
 
 
+
 if __name__ == "__main__":
     data = abol_search('https://news.ycombinator.com/',30)
-    filter_data = map(abol_filter,data)
-    print(list(filter_data))
+    filter_data = filter(abol_filter_more,data)
+    list_data = list(filter_data)
+    #More than 5 words and order  by comments
+    list_data.sort(reverse=True,key=order_comments)
+    print('\nMore than 5 words and order  by comments\n')
+    for i in list_data:
+        print(i[0],i[1],i[2],'points',i[3],'comments')
+
+    filter_data = filter(abol_filter_less,data)
+    list_data = list(filter_data)
+    #Less than 5 words and order  by points
+    list_data.sort(reverse=True,key=order_points)
+    print('\nLess than 5 words and order by points\n')
+    for i in list_data:
+        print(i[0],i[1],i[2],'points',i[3],'comments')
