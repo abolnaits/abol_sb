@@ -2,40 +2,45 @@
 import requests
 import bs4
 
-'''
-Filter a set of data if the title has more than 5 words
-'''
+
 def abol_filter_more(item):
+    '''
+    Filter a set of data if the title has more than 5 words
+    '''
     words = item[1].split(' ')
     return len(words) > 5
 
-'''
-Filter a set of data if the title has less or  5 words
-'''
+
 def abol_filter_less(item):
+    '''
+    Filter a set of data if the title has less or  5 words
+    '''
     words = item[1].split(' ')
     return len(words) <= 5
 
-'''
-Function that use the points in the list 
-as key in the sort() function
-'''
+
 def order_points(elem):
+    '''
+    Function that use the points in the list 
+    as key in the sort() function
+    '''
     return elem[2]
 
-'''
-Function that use the comments  in the list 
-as key in the sort() function
-'''
+
 def order_comments(elem):
+    '''
+    Function that use the comments  in the list 
+    as key in the sort() function
+    '''
     return elem[3]
 
-'''
-Make a http request to a new url and return the a list with
-the defined size
-Return: list 
-'''
+
 def abol_search(url,size):
+    '''
+    Make a http request to a new url and return the a list with
+    the defined size
+    Return: list 
+    '''
     try:
         # Get the request data as an object
         res = requests.get(url)
